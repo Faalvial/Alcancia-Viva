@@ -7,6 +7,7 @@ import { GoalsSection } from './components/GoalsSection';
 import { AdvisorChat } from './components/AdvisorChat';
 import { WeeklySummary } from './components/WeeklySummary';
 import { AccessibilityControls } from './components/AccessibilityControls';
+import { TeamMembers } from './components/TeamMembers';
 import {
   UserProfile,
   Transaction,
@@ -20,14 +21,20 @@ import {
   Home,
   Target,
   Bot,
-  ListOrdered,
-  Settings,
+  Users,
   Mic,
   RotateCcw,
   RefreshCw,
-  Sparkles,
   Wifi,
-  WifiOff
+  WifiOff,
+  Sprout,
+  Receipt,
+  Edit3,
+  Sliders,
+  ChevronRight,
+  TrendingDown,
+  TrendingUp,
+  CreditCard
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -35,13 +42,15 @@ export const App: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>(StorageService.getTransactions());
   const [goals, setGoals] = useState<Goal[]>(StorageService.getGoals());
   const [groups, setGroups] = useState<CollaborativeGroup[]>(StorageService.getGroups());
-  const [activeTab, setActiveTab] = useState<'home' | 'goals' | 'advisor' | 'history' | 'settings'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'goals' | 'advisor' | 'history' | 'team'>('home');
+  const [teamSubTab, setTeamSubTab] = useState<'members' | 'settings'>('members');
   const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
   const [lastSavedTxId, setLastSavedTxId] = useState<string | null>(null);
   const [undoToastVisible, setUndoToastVisible] = useState(false);
   const [undoCountdown, setUndoCountdown] = useState(10);
   const [currentLLM, setCurrentLLM] = useState<SupportedLLMProvider>(LLMFactory.getCurrentProviderType());
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [historyFilter, setHistoryFilter] = useState<'all' | 'expense' | 'income'>('all');
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -165,239 +174,349 @@ export const App: React.FC = () => {
     setGoals(res.goals);
     setGroups(res.groups);
     setTransactions(res.transactions);
-    alert('¡Datos simulados cargados con éxito! 30 días de transacciones restauradas.');
+    alert('Datos simulados cargados con éxito. 30 días de transacciones restauradas.');
   };
 
   const isHighContrast = user.accessibility_profile.high_contrast;
 
+  const filteredTransactions = transactions.filter(tx => {
+    if (historyFilter === 'all') return true;
+    return tx.type === historyFilter;
+  });
+
   return (
     <div
-      className={`min-h-screen pb-24 transition-colors duration-200 ${
-        isHighContrast ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'
+      className={`min-h-screen flex justify-center transition-colors duration-200 ${
+        isHighContrast ? 'bg-black text-white' : 'bg-slate-100 text-gray-900'
       }`}
       style={{ fontSize: `${user.accessibility_profile.text_scale * 100}%` }}
     >
-      {/* Barra de Notificación / Toast Deshacer */}
-      {undoToastVisible && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 border border-gray-700">
-          <span className="text-xs">Gasto registrado.</span>
-          <button
-            onClick={handleUndo}
-            className="text-xs font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1 underline underline-offset-2"
-          >
-            <RotateCcw size={13} /> Deshacer ({undoCountdown}s)
-          </button>
-        </div>
-      )}
+      {/* Contenedor simulador móvil en desktop / nativo en teléfono */}
+      <div className={`w-full max-w-md min-h-screen flex flex-col relative pb-20 shadow-2xl transition-all ${
+        isHighContrast ? 'bg-black' : 'bg-slate-50'
+      }`}>
+        
+        {/* Barra de Notificación / Toast Deshacer */}
+        {undoToastVisible && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 border border-slate-700 animate-bounce">
+            <span className="text-xs">Movimiento guardado</span>
+            <button
+              onClick={handleUndo}
+              className="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 underline underline-offset-2"
+            >
+              <RotateCcw size={13} /> Deshacer ({undoCountdown}s)
+            </button>
+          </div>
+        )}
 
-      {/* Cabecera Principal */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 px-4 py-3 shadow-xs">
-        <div className="max-w-md mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold text-sm">
-              🌳
+        {/* Cabecera Móvil */}
+        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 py-3 shadow-xs">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-2xl bg-emerald-700 flex items-center justify-center text-white shadow-sm">
+                <Sprout size={20} />
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <h1 className="font-extrabold text-base text-slate-900 tracking-tight leading-none">Alcancía Viva</h1>
+                  <span className="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">UNI</span>
+                </div>
+                <p className="text-[10px] text-slate-500 font-medium mt-0.5">Educación Financiera Personal</p>
+              </div>
             </div>
-            <div>
-              <h1 className="font-extrabold text-base text-gray-900 leading-tight">Alcancía Viva</h1>
-              <p className="text-[10px] text-gray-500">Educación Financiera Personal</p>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleResetDemo}
+                title="Restaurar datos simulados (30 días)"
+                className="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-[11px] font-semibold flex items-center gap-1 border border-emerald-200 transition active:scale-95"
+              >
+                <RefreshCw size={12} />
+                <span className="hidden xs:inline">Demo</span>
+              </button>
+
+              <span
+                className={`p-2 rounded-xl border ${
+                  isOnline 
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                    : 'bg-amber-50 text-amber-700 border-amber-200'
+                }`}
+                title={isOnline ? 'Conectado a la red' : 'Modo Offline (PWA)'}
+              >
+                {isOnline ? <Wifi size={14} /> : <WifiOff size={14} />}
+              </span>
             </div>
           </div>
+        </header>
 
-          <div className="flex items-center gap-2">
+        {/* Contenido Principal con Scroll Móvil */}
+        <main className="flex-1 p-4 space-y-4 overflow-y-auto">
+          {activeTab === 'home' && (
+            <>
+              {/* Ecosistema Central */}
+              <EcosystemSvg
+                health={ecosystemHealth}
+                reducedMotion={user.accessibility_profile.reduced_motion}
+              />
+
+              {/* Tarjetas de Resumen Financiero Rápido */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
+                  <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Límite Semanal</span>
+                  <p className="text-base font-extrabold text-slate-900 mt-1">
+                    S/ {user.weekly_budget.toFixed(2)}
+                  </p>
+                  <div className="text-[11px] text-emerald-700 font-medium mt-1 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Restan S/ {(user.weekly_budget - currentWeekSpent).toFixed(2)}
+                  </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
+                  <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider">Meta Activa</span>
+                  <p className="text-base font-extrabold text-slate-900 mt-1 truncate">
+                    {goals[0]?.title || 'Ahorro'}
+                  </p>
+                  <div className="text-[11px] text-emerald-700 font-medium mt-1 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    S/ {goals[0]?.current_amount} / S/ {goals[0]?.target_amount}
+                  </div>
+                </div>
+              </div>
+
+              {/* Botón Principal Móvil: Dictar o Escribir */}
+              <div className="pt-1">
+                <button
+                  onClick={() => setIsVoiceModalOpen(true)}
+                  className="w-full py-4 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.98] text-white rounded-3xl shadow-md font-bold text-sm flex items-center justify-center gap-2.5 transition"
+                >
+                  <Mic size={20} />
+                  <span>Dictar o Registrar Movimiento</span>
+                </button>
+              </div>
+
+              {/* Enlace rápido a historial */}
+              <button
+                onClick={() => setActiveTab('history')}
+                className="w-full p-3 bg-white hover:bg-slate-50 border border-slate-200/80 rounded-2xl flex items-center justify-between text-xs text-slate-700 font-semibold transition"
+              >
+                <div className="flex items-center gap-2">
+                  <Receipt size={16} className="text-emerald-700" />
+                  <span>Ver {transactions.length} transacciones registradas</span>
+                </div>
+                <ChevronRight size={16} className="text-slate-400" />
+              </button>
+
+              {/* Resumen de hábitos de consumo */}
+              <WeeklySummary
+                insights={weeklyInsight}
+                weeklyBudget={user.weekly_budget}
+                simplifiedMode={user.accessibility_profile.simplified_mode}
+              />
+            </>
+          )}
+
+          {activeTab === 'goals' && (
+            <GoalsSection
+              goals={goals}
+              groups={groups}
+              onAddGoal={handleAddGoal}
+              onContributeToGroup={handleContributeToGroup}
+            />
+          )}
+
+          {activeTab === 'advisor' && (
+            <AdvisorChat
+              emotionalProfile={user.emotional_profile}
+              weeklySummary={`Gastos de la semana: S/ ${currentWeekSpent}. Presupuesto: S/ ${user.weekly_budget}.`}
+            />
+          )}
+
+          {activeTab === 'history' && (
+            <div className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100">
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <h3 className="font-bold text-slate-900 text-sm">Historial de Transacciones</h3>
+                  <p className="text-[11px] text-slate-500">30 días de registros analizados</p>
+                </div>
+                <span className="text-xs font-mono font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                  {filteredTransactions.length} registros
+                </span>
+              </div>
+
+              {/* Filtros rápidos */}
+              <div className="flex gap-1.5 mb-4 p-1 bg-slate-100 rounded-2xl text-xs font-semibold">
+                <button
+                  onClick={() => setHistoryFilter('all')}
+                  className={`flex-1 py-1.5 rounded-xl transition ${
+                    historyFilter === 'all' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600'
+                  }`}
+                >
+                  Todos
+                </button>
+                <button
+                  onClick={() => setHistoryFilter('expense')}
+                  className={`flex-1 py-1.5 rounded-xl transition ${
+                    historyFilter === 'expense' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600'
+                  }`}
+                >
+                  Gastos
+                </button>
+                <button
+                  onClick={() => setHistoryFilter('income')}
+                  className={`flex-1 py-1.5 rounded-xl transition ${
+                    historyFilter === 'income' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600'
+                  }`}
+                >
+                  Ingresos
+                </button>
+              </div>
+
+              <div className="space-y-2.5 max-h-[60vh] overflow-y-auto pr-1">
+                {filteredTransactions.map((tx) => (
+                  <div
+                    key={tx.id}
+                    className="p-3 bg-slate-50/80 hover:bg-slate-100/80 rounded-2xl flex items-center justify-between text-xs border border-slate-100 transition"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                        tx.type === 'income' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-700'
+                      }`}>
+                        {tx.type === 'income' ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-800">{tx.description}</p>
+                        <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mt-0.5">
+                          <span>{tx.date}</span>
+                          <span>•</span>
+                          <span className="font-medium text-slate-500">{tx.category}</span>
+                          <span>•</span>
+                          <span className="flex items-center gap-0.5">
+                            {tx.source === 'voice' ? (
+                              <><Mic size={10} className="text-emerald-700" /> Voz</>
+                            ) : tx.source === 'text' ? (
+                              <><Edit3 size={10} className="text-blue-700" /> Texto</>
+                            ) : (
+                              <><CreditCard size={10} className="text-slate-700" /> Manual</>
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <span
+                      className={`font-mono font-bold text-sm ${
+                        tx.type === 'income' ? 'text-emerald-700' : 'text-slate-900'
+                      }`}
+                    >
+                      {tx.type === 'income' ? '+' : '-'} S/ {tx.amount.toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'team' && (
+            <div className="space-y-4">
+              {/* Selector de sub-vista */}
+              <div className="flex bg-slate-200/70 p-1 rounded-2xl text-xs font-semibold">
+                <button
+                  onClick={() => setTeamSubTab('members')}
+                  className={`flex-1 py-2 rounded-xl flex items-center justify-center gap-1.5 transition ${
+                    teamSubTab === 'members' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600'
+                  }`}
+                >
+                  <Users size={14} /> Integrantes del Proyecto
+                </button>
+                <button
+                  onClick={() => setTeamSubTab('settings')}
+                  className={`flex-1 py-2 rounded-xl flex items-center justify-center gap-1.5 transition ${
+                    teamSubTab === 'settings' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600'
+                  }`}
+                >
+                  <Sliders size={14} /> Accesibilidad & LLM
+                </button>
+              </div>
+
+              {teamSubTab === 'members' ? (
+                <TeamMembers />
+              ) : (
+                <AccessibilityControls
+                  settings={user.accessibility_profile}
+                  onUpdateSettings={handleUpdateAccessibility}
+                  currentProvider={currentLLM}
+                  onChangeProvider={handleChangeProvider}
+                />
+              )}
+            </div>
+          )}
+        </main>
+
+        {/* Barra de Navegación Inferior Móvil (Bottom Navigation) */}
+        <nav className="fixed bottom-0 left-0 right-0 z-40 flex justify-center pointer-events-none">
+          <div className="w-full max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-3 shadow-lg pointer-events-auto grid grid-cols-5 items-center text-center">
             <button
-              onClick={handleResetDemo}
-              title="Restaurar datos simulados (30 días)"
-              className="px-2.5 py-1 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg text-[11px] font-semibold flex items-center gap-1 border border-green-200 transition"
+              onClick={() => setActiveTab('home')}
+              className={`flex flex-col items-center gap-1 py-1 transition ${
+                activeTab === 'home' ? 'text-emerald-700 font-bold' : 'text-slate-400 hover:text-slate-600'
+              }`}
             >
-              <RefreshCw size={12} /> Cargar Demo
+              <Home size={19} />
+              <span className="text-[10px]">Inicio</span>
             </button>
 
-            <span
-              className={`p-1.5 rounded-full ${
-                isOnline ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'
+            <button
+              onClick={() => setActiveTab('goals')}
+              className={`flex flex-col items-center gap-1 py-1 transition ${
+                activeTab === 'goals' ? 'text-emerald-700 font-bold' : 'text-slate-400 hover:text-slate-600'
               }`}
-              title={isOnline ? 'Conectado a la red' : 'Modo Offline (PWA)'}
             >
-              {isOnline ? <Wifi size={14} /> : <WifiOff size={14} />}
-            </span>
-          </div>
-        </div>
-      </header>
+              <Target size={19} />
+              <span className="text-[10px]">Metas</span>
+            </button>
 
-      {/* Contenido Principal según Tab */}
-      <main className="max-w-md mx-auto p-4 space-y-4">
-        {activeTab === 'home' && (
-          <>
-            {/* Ecosistema Central */}
-            <EcosystemSvg
-              health={ecosystemHealth}
-              reducedMotion={user.accessibility_profile.reduced_motion}
-            />
-
-            {/* Píldoras de resumen rápido */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <span className="text-[11px] text-gray-400 font-medium">Límite Semanal</span>
-                <p className="text-base font-bold text-gray-800 mt-0.5">
-                  S/ {user.weekly_budget.toFixed(2)}
-                </p>
-                <div className="text-[10px] text-green-600 font-medium mt-1">
-                  Disponible: S/ {(user.weekly_budget - currentWeekSpent).toFixed(2)}
-                </div>
-              </div>
-
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <span className="text-[11px] text-gray-400 font-medium">Meta Principal</span>
-                <p className="text-base font-bold text-gray-800 mt-0.5">
-                  {goals[0]?.title || 'Ahorro'}
-                </p>
-                <div className="text-[10px] text-emerald-600 font-medium mt-1">
-                  S/ {goals[0]?.current_amount} / S/ {goals[0]?.target_amount}
-                </div>
-              </div>
-            </div>
-
-            {/* Botón Central de Registro por Voz */}
-            <div className="pt-2">
+            {/* Botón flotante central de captura de voz */}
+            <div className="flex flex-col items-center justify-center -mt-6">
               <button
                 onClick={() => setIsVoiceModalOpen(true)}
-                className="w-full py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl shadow-md font-bold text-sm flex items-center justify-center gap-2 transition hover:scale-[1.01]"
+                aria-label="Registrar movimiento por voz o texto"
+                className="w-13 h-13 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white flex items-center justify-center shadow-lg ring-4 ring-white active:scale-90 transition"
               >
-                <Mic size={20} />
-                <span>Dictar o Escribir Gasto</span>
+                <Mic size={22} />
               </button>
             </div>
 
-            {/* Resumen de hábitos */}
-            <WeeklySummary
-              insights={weeklyInsight}
-              weeklyBudget={user.weekly_budget}
-              simplifiedMode={user.accessibility_profile.simplified_mode}
-            />
-          </>
-        )}
+            <button
+              onClick={() => setActiveTab('advisor')}
+              className={`flex flex-col items-center gap-1 py-1 transition ${
+                activeTab === 'advisor' ? 'text-emerald-700 font-bold' : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              <Bot size={19} />
+              <span className="text-[10px]">Asistente</span>
+            </button>
 
-        {activeTab === 'goals' && (
-          <GoalsSection
-            goals={goals}
-            groups={groups}
-            onAddGoal={handleAddGoal}
-            onContributeToGroup={handleContributeToGroup}
-          />
-        )}
-
-        {activeTab === 'advisor' && (
-          <AdvisorChat
-            emotionalProfile={user.emotional_profile}
-            weeklySummary={`Gastos de la semana: S/ ${currentWeekSpent}. Presupuesto: S/ ${user.weekly_budget}.`}
-          />
-        )}
-
-        {activeTab === 'history' && (
-          <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-            <h4 className="font-bold text-gray-800 text-sm mb-4 flex items-center justify-between">
-              <span>Historial de Movimientos ({transactions.length})</span>
-              <span className="text-xs text-gray-400 font-normal">30 días simulados</span>
-            </h4>
-            <div className="space-y-3 max-h-[70vh] overflow-y-auto">
-              {transactions.map((tx) => (
-                <div
-                  key={tx.id}
-                  className="p-3 bg-gray-50 rounded-xl flex items-center justify-between text-xs border border-gray-100"
-                >
-                  <div>
-                    <p className="font-semibold text-gray-800">{tx.description}</p>
-                    <span className="text-[10px] text-gray-400">
-                      {tx.date} • {tx.category} • {tx.source === 'voice' ? '🎙️ Voz' : '✏️ Texto'}
-                    </span>
-                  </div>
-                  <span
-                    className={`font-bold ${
-                      tx.type === 'income' ? 'text-green-600' : 'text-gray-900'
-                    }`}
-                  >
-                    {tx.type === 'income' ? '+' : '-'} S/ {tx.amount.toFixed(2)}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <button
+              onClick={() => setActiveTab('team')}
+              className={`flex flex-col items-center gap-1 py-1 transition ${
+                activeTab === 'team' ? 'text-emerald-700 font-bold' : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              <Users size={19} />
+              <span className="text-[10px]">Equipo</span>
+            </button>
           </div>
-        )}
+        </nav>
 
-        {activeTab === 'settings' && (
-          <AccessibilityControls
-            settings={user.accessibility_profile}
-            onUpdateSettings={handleUpdateAccessibility}
-            currentProvider={currentLLM}
-            onChangeProvider={handleChangeProvider}
-          />
-        )}
-      </main>
-
-      {/* Barra de Navegación Inferior (Tabs) */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 py-2 shadow-lg">
-        <div className="max-w-md mx-auto grid grid-cols-5 text-center">
-          <button
-            onClick={() => setActiveTab('home')}
-            className={`flex flex-col items-center gap-1 py-1 ${
-              activeTab === 'home' ? 'text-green-700 font-bold' : 'text-gray-400'
-            }`}
-          >
-            <Home size={19} />
-            <span className="text-[10px]">Inicio</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('goals')}
-            className={`flex flex-col items-center gap-1 py-1 ${
-              activeTab === 'goals' ? 'text-green-700 font-bold' : 'text-gray-400'
-            }`}
-          >
-            <Target size={19} />
-            <span className="text-[10px]">Metas</span>
-          </button>
-
-          {/* Botón flotante para captura rápida */}
-          <button
-            onClick={() => setIsVoiceModalOpen(true)}
-            aria-label="Registrar gasto"
-            className="flex flex-col items-center justify-center -mt-5"
-          >
-            <div className="w-13 h-13 rounded-full bg-green-600 text-white flex items-center justify-center shadow-lg hover:bg-green-700 transition">
-              <Mic size={24} />
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('advisor')}
-            className={`flex flex-col items-center gap-1 py-1 ${
-              activeTab === 'advisor' ? 'text-green-700 font-bold' : 'text-gray-400'
-            }`}
-          >
-            <Bot size={19} />
-            <span className="text-[10px]">Asistente</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`flex flex-col items-center gap-1 py-1 ${
-              activeTab === 'settings' ? 'text-green-700 font-bold' : 'text-gray-400'
-            }`}
-          >
-            <Settings size={19} />
-            <span className="text-[10px]">Ajustes</span>
-          </button>
-        </div>
-      </nav>
-
-      {/* Modal de Dictado / Escritura de Gastos */}
-      <VoiceModal
-        isOpen={isVoiceModalOpen}
-        onClose={() => setIsVoiceModalOpen(false)}
-        onSaveExpense={handleSaveExpense}
-        onUndoLastExpense={handleUndo}
-        canUndo={Boolean(lastSavedTxId)}
-      />
+        {/* Modal de Dictado / Escritura de Gastos */}
+        <VoiceModal
+          isOpen={isVoiceModalOpen}
+          onClose={() => setIsVoiceModalOpen(false)}
+          onSaveExpense={handleSaveExpense}
+          onUndoLastExpense={handleUndo}
+          canUndo={Boolean(lastSavedTxId)}
+        />
+      </div>
     </div>
   );
 };

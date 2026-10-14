@@ -63,17 +63,19 @@
       "name": "Viaje a Cusco",
       "invite_code": "CUSCO2026",
       "target_amount": 3000.0,
-      "current_amount": 1250.0,
+      "current_amount": 1450.0,
       "privacy_mode": "contributions_only",
       "members": [
         { "id": "usr_demo_01", "name": "Farid (Tú)", "contribution": 650.0 },
         { "id": "usr_02", "name": "Hector Espinoza", "contribution": 350.0 },
-        { "id": "usr_03", "name": "Jorly Inga", "contribution": 250.0 }
+        { "id": "usr_03", "name": "Jorly Inga", "contribution": 250.0 },
+        { "id": "usr_04", "name": "Jean Paul Mori", "contribution": 200.0 }
       ],
       "recent_contributions": [
         { "id": "c1", "member_name": "Farid (Tú)", "amount": 100.0, "date": "2026-10-13", "note": "Aporte semanal" },
         { "id": "c2", "member_name": "Hector Espinoza", "amount": 75.0, "date": "2026-10-12", "note": "Ahorro almuerzo" },
-        { "id": "c3", "member_name": "Jorly Inga", "amount": 50.0, "date": "2026-10-10", "note": "Meta del mes" }
+        { "id": "c3", "member_name": "Jorly Inga", "amount": 50.0, "date": "2026-10-10", "note": "Meta del mes" },
+        { "id": "c4", "member_name": "Jean Paul Mori", "amount": 50.0, "date": "2026-10-09", "note": "Aporte inicial" }
       ]
     }
   ],

@@ -105,10 +105,11 @@ export const EcosystemSvg: React.FC<EcosystemSvgProps> = ({ health, reducedMotio
 
       {/* Descripción empática y estado */}
       <div className="text-center mt-3">
-        <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
           isHealthy ? 'bg-green-100 text-green-800' : isModerate ? 'bg-amber-100 text-amber-800' : 'bg-orange-100 text-orange-800'
         }`}>
-          {isHealthy ? '🌿 Ecosistema Floreciente' : isModerate ? '🌱 En Crecimiento Constante' : '🍂 Requiere Nutrición'}
+          <span className={`w-2 h-2 rounded-full ${isHealthy ? 'bg-green-600' : isModerate ? 'bg-amber-600' : 'bg-orange-600'}`} />
+          {isHealthy ? 'Ecosistema Floreciente' : isModerate ? 'En Crecimiento Constante' : 'Requiere Nutrición'}
         </span>
         <p className="text-sm font-medium text-gray-700 mt-2 px-2 max-w-sm">
           {health.description}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Alcancia Viva</string>
+    <string name="title_activity_main">Alcancia Viva</string>
+    <string name="package_name">pe.edu.uni.alcanciaviva</string>
+    <string name="custom_url_scheme">pe.edu.uni.alcanciaviva</string>
+</resources>

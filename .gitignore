@@ -20,6 +20,7 @@ pids
 node_modules/
 dist/
 dist-ssr/
+*.tsbuildinfo
 *.local
 
 # Environment files

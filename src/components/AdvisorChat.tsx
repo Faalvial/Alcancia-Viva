@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Bot, Volume2, Mic } from 'lucide-react';
+import { Send, Bot, Volume2, Mic, Utensils, Laptop, TrendingUp } from 'lucide-react';
 import { LLMFactory } from '../services/llm/llmFactory';
 import { SpeechService } from '../services/voice/speechService';
 import { EmotionalProfile } from '../types';
@@ -132,18 +132,24 @@ export const AdvisorChat: React.FC<AdvisorChatProps> = ({
       </div>
 
       {/* Sugerencias rápidas */}
-      <div className="flex gap-2 py-2 overflow-x-auto text-[11px]">
+      <div className="flex gap-2 py-2 overflow-x-auto text-[11px] no-scrollbar">
         <button
           onClick={() => handleSend('¿Cuánto gasté en comida este mes?')}
-          className="px-2.5 py-1 bg-gray-50 hover:bg-green-50 border rounded-full text-gray-600 whitespace-nowrap"
+          className="px-3 py-1.5 bg-gray-50 hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-full text-gray-700 whitespace-nowrap flex items-center gap-1.5 transition"
         >
-          🍔 ¿Gasto en comida?
+          <Utensils size={12} className="text-emerald-600" /> ¿Gasto en comida?
         </button>
         <button
           onClick={() => handleSend('¿Cómo va mi meta de la laptop?')}
-          className="px-2.5 py-1 bg-gray-50 hover:bg-green-50 border rounded-full text-gray-600 whitespace-nowrap"
+          className="px-3 py-1.5 bg-gray-50 hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-full text-gray-700 whitespace-nowrap flex items-center gap-1.5 transition"
         >
-          💻 ¿Avance de laptop?
+          <Laptop size={12} className="text-emerald-600" /> ¿Avance de laptop?
+        </button>
+        <button
+          onClick={() => handleSend('¿Cómo va mi presupuesto semanal?')}
+          className="px-3 py-1.5 bg-gray-50 hover:bg-emerald-50 border border-gray-200 hover:border-emerald-200 rounded-full text-gray-700 whitespace-nowrap flex items-center gap-1.5 transition"
+        >
+          <TrendingUp size={12} className="text-emerald-600" /> ¿Presupuesto semanal?
         </button>
       </div>
 
