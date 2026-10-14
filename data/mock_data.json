@@ -1,0 +1,132 @@
+{
+  "user": {
+    "id": "usr_demo_01",
+    "name": "Farid Villanueva",
+    "email": "farid.villanueva@uni.pe",
+    "currency": "PEN",
+    "symbol": "S/",
+    "monthly_budget": 1200.0,
+    "weekly_budget": 300.0,
+    "current_week_spent": 235.0,
+    "ecosystem_type": "tree",
+    "accessibility_profile": {
+      "high_contrast": false,
+      "reduced_motion": false,
+      "simplified_mode": false,
+      "screen_reader_friendly": true,
+      "text_scale": 1.0,
+      "audio_feedback": true,
+      "voice_speed": 1.0
+    },
+    "emotional_profile": {
+      "declared_sentiment": "calm",
+      "stress_level": "low",
+      "assistant_tone": "empathetic",
+      "learned_categories": {
+        "taxi": "Transporte",
+        "uber": "Transporte",
+        "metropolitano": "Transporte",
+        "menu": "Comida",
+        "almuerzo": "Comida",
+        "cafe": "Comida",
+        "copias": "Educacion",
+        "libro": "Educacion",
+        "cine": "Ocio"
+      }
+    }
+  },
+  "goals": [
+    {
+      "id": "goal_01",
+      "title": "Laptop de Desarrollo",
+      "target_amount": 2000.0,
+      "current_amount": 800.0,
+      "target_date": "2026-12-15",
+      "category": "Equipamiento",
+      "status": "in_progress",
+      "weekly_target": 220.0
+    },
+    {
+      "id": "goal_02",
+      "title": "Fondo de Emergencia",
+      "target_amount": 1000.0,
+      "current_amount": 650.0,
+      "target_date": "2027-01-30",
+      "category": "Seguridad",
+      "status": "in_progress",
+      "weekly_target": 75.0
+    }
+  ],
+  "collaborative_groups": [
+    {
+      "id": "grp_01",
+      "name": "Viaje a Cusco",
+      "invite_code": "CUSCO2026",
+      "target_amount": 3000.0,
+      "current_amount": 1250.0,
+      "privacy_mode": "contributions_only",
+      "members": [
+        { "id": "usr_demo_01", "name": "Farid (Tú)", "contribution": 650.0 },
+        { "id": "usr_02", "name": "Hector Espinoza", "contribution": 350.0 },
+        { "id": "usr_03", "name": "Jorly Inga", "contribution": 250.0 }
+      ],
+      "recent_contributions": [
+        { "id": "c1", "member_name": "Farid (Tú)", "amount": 100.0, "date": "2026-10-13", "note": "Aporte semanal" },
+        { "id": "c2", "member_name": "Hector Espinoza", "amount": 75.0, "date": "2026-10-12", "note": "Ahorro almuerzo" },
+        { "id": "c3", "member_name": "Jorly Inga", "amount": 50.0, "date": "2026-10-10", "note": "Meta del mes" }
+      ]
+    }
+  ],
+  "transactions_30_days": [
+    { "id": "tx_30", "date": "2026-10-13", "description": "Taxi a la universidad", "category": "Transporte", "amount": 25.0, "type": "expense", "source": "voice" },
+    { "id": "tx_29", "date": "2026-10-13", "description": "Menú universitario", "category": "Comida", "amount": 15.0, "type": "expense", "source": "voice" },
+    { "id": "tx_28", "date": "2026-10-12", "description": "Copias y material de estudio CC451", "category": "Educacion", "amount": 12.0, "type": "expense", "source": "text" },
+    { "id": "tx_27", "date": "2026-10-11", "description": "Café y galletas biblioteca", "category": "Comida", "amount": 8.5, "type": "expense", "source": "voice" },
+    { "id": "tx_26", "date": "2026-10-10", "description": "Aporte proyecto Viaje a Cusco", "category": "Ahorro", "amount": 100.0, "type": "savings", "source": "text" },
+    { "id": "tx_25", "date": "2026-10-09", "description": "Recarga tarjeta Metropolitano", "category": "Transporte", "amount": 20.0, "type": "expense", "source": "voice" },
+    { "id": "tx_24", "date": "2026-10-08", "description": "Almuerzo con compañeros", "category": "Comida", "amount": 22.0, "type": "expense", "source": "voice" },
+    { "id": "tx_23", "date": "2026-10-07", "description": "Pago ayudantía académica", "category": "Ingreso", "amount": 400.0, "type": "income", "source": "manual" },
+    { "id": "tx_22", "date": "2026-10-06", "description": "Farmacia antigripal", "category": "Salud", "amount": 18.0, "type": "expense", "source": "text" },
+    { "id": "tx_21", "date": "2026-10-05", "description": "Entrada de cine con amigos", "category": "Ocio", "amount": 24.0, "type": "expense", "source": "voice" },
+    { "id": "tx_20", "date": "2026-10-04", "description": "Almuerzo dominical familiar", "category": "Comida", "amount": 35.0, "type": "expense", "source": "text" },
+    { "id": "tx_19", "date": "2026-10-03", "description": "Taxi regreso tarde", "category": "Transporte", "amount": 28.0, "type": "expense", "source": "voice" },
+    { "id": "tx_18", "date": "2026-10-02", "description": "Libro de Inteligencia Artificial", "category": "Educacion", "amount": 65.0, "type": "expense", "source": "text" },
+    { "id": "tx_17", "date": "2026-10-01", "description": "Plan celular mensual", "category": "Servicios", "amount": 45.0, "type": "expense", "source": "text" },
+    { "id": "tx_16", "date": "2026-09-30", "description": "Aporte ahorro Laptop", "category": "Ahorro", "amount": 150.0, "type": "savings", "source": "text" },
+    { "id": "tx_15", "date": "2026-09-29", "description": "Menú facultad", "category": "Comida", "amount": 14.0, "type": "expense", "source": "voice" },
+    { "id": "tx_14", "date": "2026-09-28", "description": "Pasaje tren eléctrico", "category": "Transporte", "amount": 10.0, "type": "expense", "source": "voice" },
+    { "id": "tx_13", "date": "2026-09-27", "description": "Snacks reunión de estudio", "category": "Comida", "amount": 16.0, "type": "expense", "source": "voice" },
+    { "id": "tx_12", "date": "2026-09-26", "description": "Suscripción plataforma código", "category": "Educacion", "amount": 39.0, "type": "expense", "source": "text" },
+    { "id": "tx_11", "date": "2026-09-25", "description": "Cena pizza grupo", "category": "Ocio", "amount": 30.0, "type": "expense", "source": "voice" },
+    { "id": "tx_10", "date": "2026-09-24", "description": "Almuerzo comedor", "category": "Comida", "amount": 15.0, "type": "expense", "source": "voice" },
+    { "id": "tx_09", "date": "2026-09-23", "description": "Materiales para laboratorio", "category": "Educacion", "amount": 25.0, "type": "expense", "source": "text" },
+    { "id": "tx_08", "date": "2026-09-22", "description": "Taxi lluvia", "category": "Transporte", "amount": 20.0, "type": "expense", "source": "voice" },
+    { "id": "tx_07", "date": "2026-09-21", "description": "Menú semanal", "category": "Comida", "amount": 15.0, "type": "expense", "source": "voice" },
+    { "id": "tx_06", "date": "2026-09-20", "description": "Aporte ahorro Laptop", "category": "Ahorro", "amount": 100.0, "type": "savings", "source": "text" },
+    { "id": "tx_05", "date": "2026-09-19", "description": "Ingreso freelance maquetación web", "category": "Ingreso", "amount": 550.0, "type": "income", "source": "manual" },
+    { "id": "tx_04", "date": "2026-09-18", "description": "Compras útiles y cuadernos", "category": "Educacion", "amount": 32.0, "type": "expense", "source": "text" },
+    { "id": "tx_03", "date": "2026-09-17", "description": "Almuerzo pollo a la brasa", "category": "Comida", "amount": 28.0, "type": "expense", "source": "voice" },
+    { "id": "tx_02", "date": "2026-09-16", "description": "Transporte semanal", "category": "Transporte", "amount": 30.0, "type": "expense", "source": "voice" },
+    { "id": "tx_01", "date": "2026-09-15", "description": "Saldo inicial apertura", "category": "Ingreso", "amount": 800.0, "type": "income", "source": "manual" }
+  ],
+  "ecosystem_health": {
+    "score": 85,
+    "state": "thriving",
+    "leaves_count": 48,
+    "flowers_count": 8,
+    "description": "Tu árbol está frondoso y lleno de flores. Vas un 15% por debajo del límite de tu presupuesto semanal.",
+    "aria_speech": "Tu árbol financiero está frondoso: tus gastos de la semana suman 235 soles sobre un límite de 300 soles. Tienes dos metas activas con progreso saludable."
+  },
+  "weekly_insights": {
+    "period": "Semana del 7 al 13 de Octubre",
+    "total_spent": 235.0,
+    "top_categories": [
+      { "category": "Comida", "amount": 128.0, "percentage": 54.5 },
+      { "category": "Transporte", "amount": 65.0, "percentage": 27.6 },
+      { "category": "Educacion", "amount": 42.0, "percentage": 17.9 }
+    ],
+    "pattern_detected": "Tus mayores gastos se concentran al mediodía entre semana en alimentación fuera de casa.",
+    "actionable_advice": "Si preparas refrigerio 2 días a la semana, podrías destinar aproximadamente S/ 30 adicionales a tu meta de la Laptop.",
+    "non_judgmental_score": 100
+  }
+}
